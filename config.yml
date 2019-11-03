@@ -1,0 +1,6 @@
+name: SUAI Bank Server
+version: 0.0.1
+log:
+  level: INFO
+console:
+  prefix: '> '
