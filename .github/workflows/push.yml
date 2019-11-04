@@ -10,9 +10,8 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 2
       matrix:
-        python-version: [3.7, 3.8]
+        python-version: [3.8]
 
     steps:
       - uses: actions/checkout@v1
@@ -31,13 +30,13 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-  
+
   on-success:
     name: On success
     runs-on: ubuntu-latest
     if: success()
     needs: [tests]
-    
+
     steps:
       - name: Send success message
         uses: appleboy/telegram-action@master
@@ -48,16 +47,16 @@ jobs:
           format: html
           message: |
             Repo: ${{ github.repository }}
-            Commit: <a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
+            Commit:<br><a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
             Status: success
             Pushed by ${{ github.actor }}
-  
+
   on-fail:
     name: On fail actions
     runs-on: ubuntu-latest
     if: failure()
     needs: [tests]
-    
+
     steps:
       - name: Send fail message
         uses: appleboy/telegram-action@master
@@ -68,15 +67,15 @@ jobs:
           format: html
           message: |
             Repo: ${{ github.repository }}
-            Commit: <a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
+            Commit:<br><a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
             Status: failed
             Pushed by ${{ github.actor }}
-  
+
   on-cancel:
     name: On cancel
     runs-on: ubuntu-latest
     if: cancelled()
-    
+
     steps:
       - name: Send cancel message
         uses: appleboy/telegram-action@master
@@ -87,6 +86,6 @@ jobs:
           format: html
           message: |
             Repo: ${{ github.repository }}
-            Commit: <a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
+            Commit:<br><a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
             Status: cancelled
             Pushed by ${{ github.actor }}
