@@ -47,7 +47,8 @@ jobs:
           format: html
           message: |
             Repo: ${{ github.repository }}
-            Commit:<br><a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
+            Commit:
+            <a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
             Status: success
             Pushed by ${{ github.actor }}
 
@@ -67,7 +68,8 @@ jobs:
           format: html
           message: |
             Repo: ${{ github.repository }}
-            Commit:<br><a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
+            Commit:
+            <a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
             Status: failed
             Pushed by ${{ github.actor }}
 
@@ -86,6 +88,7 @@ jobs:
           format: html
           message: |
             Repo: ${{ github.repository }}
-            Commit:<br><a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
+            Commit:
+            <a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
             Status: cancelled
             Pushed by ${{ github.actor }}
