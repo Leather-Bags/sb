@@ -13,5 +13,6 @@ console = Console(prefix=config['console']['prefix'], log=logger.get_logger('con
 if __name__ == "__main__":
     log = logger.get_logger('core')
     log.info('Server starting')
-    log.info('Server started')
+    logger.console_integration(console)
     console.start()
+    log.info('Server started')

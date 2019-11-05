@@ -38,14 +38,16 @@ class Console(Cmd):
 
     # New methods
     def start(self, intro: str = '') -> None:
+        self.log.info('Starting console')
         self.cmdloop(intro=f'{self.config["name"]} v{self.config["version"]}')
 
-    def add_command(self, command: str, func, /, *, help: str = ''):
-        self.__setattr__('do_' + command, func)
-        if isinstance(help, types.FunctionType):
-            self.__setattr__('help_' + command, help)
-        elif isinstance(help, str):
-            self.__setattr__('help_' + command, lambda: print(help))
+    def add_command(self, name: str, func, /, *, info: str = ''):
+        self.__setattr__('do_' + name, func)
+        if isinstance(info, types.FunctionType):
+            self.__setattr__('help_' + name, info)
+        elif isinstance(info, str):
+            self.__setattr__('help_' + name, lambda: print(info))
+        self.log.debug(f'Command "{name}" added{". With help info" if info else ""}')
 
     # Built-in commands
     def do_about(self, args: str) -> None:
