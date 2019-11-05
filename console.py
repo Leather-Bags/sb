@@ -33,16 +33,19 @@ class Console(Cmd):
     def emptyline(self) -> None:
         ...
 
+    def get_names(self) -> list:
+        return list(set(dir(self) + list(self.__dict__)))
+
     # New methods
     def start(self, intro: str = '') -> None:
         self.cmdloop(intro=f'{self.config["name"]} v{self.config["version"]}')
 
-    def add_command(self, command: str, func: types.FunctionType, /, *, help: str = ''):
-        setattr(self, 'do_' + command, func)
+    def add_command(self, command: str, func, /, *, help: str = ''):
+        self.__setattr__('do_' + command, func)
         if isinstance(help, types.FunctionType):
-            setattr(self, 'help_' + command, help)
+            self.__setattr__('help_' + command, help)
         elif isinstance(help, str):
-            setattr(self, 'help_' + command, lambda: print(help))
+            self.__setattr__('help_' + command, lambda: print(help))
 
     # Built-in commands
     def do_about(self, args: str) -> None:
