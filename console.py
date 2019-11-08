@@ -1,8 +1,12 @@
 import logging
 import os
+import psutil
 import types
 
 from cmd import Cmd
+from time import time
+
+import library as lib
 
 __author__ = "Timur Israpilov"
 
@@ -12,9 +16,11 @@ class Console(Cmd):
     """
 
     # Magic methods
-    def __init__(self, *, log: logging.Logger, config: dict, prefix: str = '> ', **kwargs):
+    def __init__(self, *, log: logging.Logger, config: dict, prefix: str = '> ', start_time: int = int(time()),
+                 **kwargs):
         self.config = config
         self.log = log
+        self.start_time = start_time
 
         super().__init__()
         self.doc_leader = kwargs['doc_leader'] if 'doc_leader' in kwargs else 'Use ?<command> to see help\n'
@@ -80,3 +86,24 @@ class Console(Cmd):
     @staticmethod
     def help_shell() -> None:
         print('Start command in shell(terminal)\nUsage: !<command>')
+
+    def do_stats(self, args: str) -> None:
+        print(f'Machine statistics:')
+        print(
+            f'- CPU frequency: {lib.hertz_convert(int(psutil.cpu_freq().current))} Mhz / '
+            f'{lib.hertz_convert(int(psutil.cpu_freq().max))} Mhz')
+        print(
+            f'- RAM: {lib.bytes_convert(psutil.virtual_memory().used)} / '
+            f'{lib.bytes_convert(psutil.virtual_memory().total)} ({psutil.virtual_memory().percent}%)')
+        if psutil.swap_memory().total:
+            print(
+                f'- Swap: {lib.bytes_convert(psutil.swap_memory().used)} / '
+                f'{lib.bytes_convert(psutil.swap_memory().total)} ({psutil.swap_memory().percent}%)')
+        print(
+            f'- Disk space: {lib.bytes_convert(psutil.disk_usage(os.getcwd()).used)} / '
+            f'{lib.bytes_convert(psutil.disk_usage(os.getcwd()).total)}')
+        print(f'- Uptime: {lib.elapsed_time(self.start_time, int(time()))}')
+
+    @staticmethod
+    def help_stats() -> None:
+        print('Get server and machine statistics')
