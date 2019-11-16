@@ -1,5 +1,6 @@
-from yaml import safe_load
 from os.path import isfile
+
+from yaml import safe_load
 
 if isfile('config.yml'):
     globals().update(safe_load(open('config.yml')))

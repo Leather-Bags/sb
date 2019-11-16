@@ -1,6 +1,6 @@
 import logging
+import threading
 from time import time
-
 
 import config
 from console import Console
@@ -14,8 +14,14 @@ console = Console(prefix=config.console['prefix'], log=logger.get_logger('consol
                   start_time=start_time)
 
 if __name__ == "__main__":
+    threads = {}
+
     log = logger.get_logger('core')
     log.info('Server starting')
     logger.console_integration(console)
-    console.start()
+
+    # Thread for console
+    threads['console'] = threading.Thread(target=console.start)
+    threads['console'].start()
+
     log.info('Server started')

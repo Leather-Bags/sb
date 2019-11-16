@@ -1,10 +1,10 @@
 import logging
 import os
-import psutil
 import types
-
 from cmd import Cmd
 from time import time
+
+import psutil
 
 import library as lib
 

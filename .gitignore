@@ -128,3 +128,4 @@ dmypy.json
 # Project
 .idea/
 logs/
+data/

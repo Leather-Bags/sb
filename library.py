@@ -1,3 +1,6 @@
+from time import sleep
+
+
 def elapsed_time(begin: int, end: int) -> str:  # Convert time to '<hours>h <minutes>m <seconds>s' style
     elapsed = end - begin
     if elapsed // 60 > 0:
@@ -33,3 +36,11 @@ def hertz_convert(hz: int) -> str:  # Convert Hertz to Mhz/Ghz style
             hz = round(hz, 3)
             break
     return f'{hz}{r[mr]}'
+
+
+def freeze(delay: int = 0):
+    if delay:
+        sleep(delay)
+    else:
+        while True:
+            sleep(1)
