@@ -16,7 +16,7 @@ class Console(Cmd):
     """
 
     # Magic methods
-    def __init__(self, *, log: logging.Logger, config: dict, prefix: str = '> ', start_time: int = int(time()),
+    def __init__(self, *, log: logging.Logger, config, prefix: str = '> ', start_time: int = int(time()),
                  **kwargs):
         self.config = config
         self.log = log
@@ -45,7 +45,7 @@ class Console(Cmd):
     # New methods
     def start(self, intro: str = '') -> None:
         self.log.info('Starting console')
-        self.cmdloop(intro=f'{self.config["name"]} v{self.config["version"]}')
+        self.cmdloop(intro=f'{self.config.name} v{self.config.version}')
 
     def add_command(self, name: str, func, /, *, info: str = ''):
         self.__setattr__('do_' + name, func)
@@ -57,7 +57,7 @@ class Console(Cmd):
 
     # Built-in commands
     def do_about(self, args: str) -> None:
-        print(f'{self.config["name"]} v{self.config["version"]}')
+        print(f'{self.config["name"]} v{self.config.version}')
 
     @staticmethod
     def help_about() -> None:
