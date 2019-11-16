@@ -1,5 +1,6 @@
 name: SUAI Bank Server
 version: 0.0.2
+data: ./
 log:
   level: INFO
 console:
